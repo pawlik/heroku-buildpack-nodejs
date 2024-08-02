@@ -87,6 +87,10 @@ handle_failure() {
   warn_econnreset "$LOG_FILE"
   log_meta_data >> "$BUILDPACK_LOG_FILE"
   failure_message | output "$LOG_FILE"
+  
+  cat $LOG_FILE 
+
+  cat /tmp/**/build.log
 }
 trap 'handle_failure' ERR
 
@@ -480,13 +484,6 @@ meta_time "build-time" "$build_start_time"
 warn_no_start "$BUILD_DIR"
 warn_unmet_dep "$LOG_FILE"
 warn_old_npm_lockfile $NPM_LOCK
-
-
-function cat_npm_debug_log() {
-  cat $LOG_FILE 
-}
-
-trap cat_npm_debug_log EXIT
 
 meta_set "build-step" "finished"
 log_meta_data >> "$BUILDPACK_LOG_FILE"
